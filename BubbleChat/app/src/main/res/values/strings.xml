@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">BubbleChat</string>
+    <string name="app_name">Bubble Chat</string>
+    <string name="caTitle">Connections</string>
 </resources>
