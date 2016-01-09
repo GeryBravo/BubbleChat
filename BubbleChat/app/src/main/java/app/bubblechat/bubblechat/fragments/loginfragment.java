@@ -1,4 +1,4 @@
-package app.bubblechat.bubblechat;
+package app.bubblechat.bubblechat.fragments;
 
 
 import android.os.Bundle;
@@ -10,17 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 
+import app.bubblechat.bubblechat.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class LoginFragment extends Fragment implements OnClickListener {
 
     private Button signupBtn;
-    public LoginFragment() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
