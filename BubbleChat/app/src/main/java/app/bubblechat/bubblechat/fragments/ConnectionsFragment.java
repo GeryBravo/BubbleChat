@@ -24,8 +24,8 @@ public class ConnectionsFragment extends Fragment {
     {
         View v = inflater.inflate(R.layout.fragment_connections, container, false);
 
-        connectionsList = (RecyclerView) v.findViewById(R.id.rvConnectionsList);
-        manager = new LinearLayoutManager(getActivity());
+        //connectionsList = (RecyclerView) v.findViewById(R.id.rvConnectionsList);
+       // manager = new LinearLayoutManager(getActivity());
 
         return v;
     }
