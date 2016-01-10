@@ -9,7 +9,7 @@ public class LoginActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.refactor_container);
+        setContentView(R.layout.container);
 
         if (findViewById(R.id.fragment_container) != null) {
 

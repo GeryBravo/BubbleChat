@@ -2,6 +2,7 @@ package app.bubblechat.bubblechat;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import app.bubblechat.bubblechat.fragments.ConnectionsFragment;
 
@@ -10,7 +11,8 @@ public class ConnectionsActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.connections_container);
+        setContentView(R.layout.container);
+        Log.d("ConnectionsActivity","onCreate");
 
         if(findViewById(R.id.fragment_container)!=null)
         {

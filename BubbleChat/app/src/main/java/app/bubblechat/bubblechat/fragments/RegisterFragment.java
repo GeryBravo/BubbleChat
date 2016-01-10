@@ -1,8 +1,6 @@
 package app.bubblechat.bubblechat.fragments;
 
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,8 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -34,7 +30,7 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_registerfragment, container, false);
+        View v = inflater.inflate(R.layout.fragment_register, container, false);
         username = (EditText) v.findViewById(R.id.username);
         password = (EditText) v.findViewById(R.id.password);
         email = (EditText) v.findViewById(R.id.email);

@@ -5,4 +5,6 @@ package app.bubblechat.bubblechat.helpers;
  */
 public class Metadata {
     public static final String USERS_TABLE = "users";
+    public static final String ATTRIBUTE_NAME = "name";
+    public static final String ATTRIBUTE_FRIENDSLIST = "friends";
 }
