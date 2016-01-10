@@ -20,20 +20,21 @@
         <uses-permission android:name="app.bubblechat.bubblechat.permission.C2D_MESSAGE" />
         <meta-data
             android:name="com.parse.APPLICATION_ID"
-            android:value="STM2YtWrmgU6R4D0YkveElLD5xBnWP8TvMm7IOpQ" />
+            android:value="ZE4vcFbwtaV2KiG3WOt4RSj5jFYEKYNFgNGhVAU5" />
         <meta-data
             android:name="com.parse.CLIENT_KEY"
-            android:value="2kRVkOuuk2eTnagZ43MVPIbdIghD0CEJx3WaE9NL" />
+            android:value="3474sB1edGG5ozQLbwCNqYDNDEIGsgxs942ZuC7a" />
+
         <activity android:name=".ConnectionsActivity">
-
-        </activity>
-        <activity android:name=".LoginActivity">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+        <activity android:name=".LoginActivity"></activity>
+
     </application>
 
     <service android:name="com.parse.PushService" />

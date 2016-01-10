@@ -3,6 +3,8 @@ package app.bubblechat.bubblechat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import app.bubblechat.bubblechat.fragments.LoginFragment;
+
 public class LoginActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,4 +1,4 @@
-package app.bubblechat.bubblechat;
+package app.bubblechat.bubblechat.fragments;
 
 
 import android.content.DialogInterface;
@@ -18,11 +18,8 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+import app.bubblechat.bubblechat.R;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class RegisterFragment extends Fragment {
 
     private Button signupBtn;
