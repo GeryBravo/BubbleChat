@@ -4,6 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +15,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/noTitle">
+        <permission android:protectionLevel="signature"
+            android:name="app.bubblechat.bubblechat.permission.C2D_MESSAGE" />
+        <uses-permission android:name="app.bubblechat.bubblechat.permission.C2D_MESSAGE" />
         <meta-data
             android:name="com.parse.APPLICATION_ID"
             android:value="STM2YtWrmgU6R4D0YkveElLD5xBnWP8TvMm7IOpQ" />
@@ -28,5 +35,27 @@
         </intent-filter>
         </activity>
     </application>
+
+    <service android:name="com.parse.PushService" />
+    <receiver android:name="com.parse.ParsePushBroadcastReceiver"
+        android:exported="false">
+        <intent-filter>
+            <action android:name="com.parse.push.intent.RECEIVE" />
+            <action android:name="com.parse.push.intent.DELETE" />
+            <action android:name="com.parse.push.intent.OPEN" />
+        </intent-filter>
+    </receiver>
+    <receiver android:name="com.parse.GcmBroadcastReceiver"
+        android:permission="com.google.android.c2dm.permission.SEND">
+        <intent-filter>
+            <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+            <!--
+              IMPORTANT: Change "com.parse.starter" to match your app's package name.
+            -->
+            <category android:name="com.parse.starter" />
+        </intent-filter>
+    </receiver>
 
 </manifest>

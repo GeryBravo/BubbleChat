@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 
@@ -40,6 +41,7 @@ public class LoginFragment extends Fragment implements OnClickListener {
         signupBtn = (Button) v.findViewById(R.id.signup);
         signupBtn.setOnClickListener(this);
         Parse.initialize(getActivity(), "ZE4vcFbwtaV2KiG3WOt4RSj5jFYEKYNFgNGhVAU5", "3474sB1edGG5ozQLbwCNqYDNDEIGsgxs942ZuC7a");
+        ParseInstallation.getCurrentInstallation().saveInBackground();
         username = (EditText) v.findViewById(R.id.username);
         password = (EditText) v.findViewById(R.id.password);
         loginBtn = (Button) v.findViewById(R.id.login);

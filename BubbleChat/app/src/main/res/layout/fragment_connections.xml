@@ -10,7 +10,7 @@
         android:gravity="center"
         >
         <ImageButton
-            android:id="@+id/ibNewMessage"
+            android:id="@+id/bNewMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/message32"
