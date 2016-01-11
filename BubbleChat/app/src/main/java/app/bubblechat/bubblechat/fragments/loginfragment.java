@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,24 @@ import android.widget.Toast;
 
 import app.bubblechat.bubblechat.ConnectionsActivity;
 import app.bubblechat.bubblechat.R;
+import app.bubblechat.bubblechat.helpers.Metadata;
+import app.bubblechat.bubblechat.objects.UserProfile;
+
+import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
-public class LoginFragment extends Fragment implements OnClickListener {
+import java.util.List;
+
+public class LoginFragment extends Fragment {
+
+    private static final String TAG = "LoginFragment";
 
     private Button signupBtn;
     private Button loginBtn;
@@ -34,11 +47,8 @@ public class LoginFragment extends Fragment implements OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
-
-        signupBtn = (Button) v.findViewById(R.id.signup);
-        signupBtn.setOnClickListener(this);
-        Parse.initialize(getActivity(), "ZE4vcFbwtaV2KiG3WOt4RSj5jFYEKYNFgNGhVAU5", "3474sB1edGG5ozQLbwCNqYDNDEIGsgxs942ZuC7a");
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+        //Parse.initialize(getActivity());
+        //ParseInstallation.getCurrentInstallation().saveInBackground();
         username = (EditText) v.findViewById(R.id.username);
         password = (EditText) v.findViewById(R.id.password);
         loginBtn = (Button) v.findViewById(R.id.login);
@@ -47,39 +57,65 @@ public class LoginFragment extends Fragment implements OnClickListener {
             public void onClick(View v) {
                 usernametxt = username.getText().toString();
                 passwordtxt = password.getText().toString();
-
-                ParseUser.logInInBackground(usernametxt, passwordtxt, new LogInCallback() {
-                    @Override
-                    public void done(ParseUser user, com.parse.ParseException e) {
-                        if (user != null) {
-                            Intent intent = new Intent(getActivity(),
-                                    ConnectionsActivity.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(
-                                    getActivity(),
-                                    "error occured: "+e,
-                                    Toast.LENGTH_LONG).show();
-                            //Log.d("LoginFragment", e.toString());
-                            //Log.d("LoginFragment", usernametxt + passwordtxt);
-                        }
-                    }
-                });
+                logIn();
+            }
+        });
+        signupBtn = (Button) v.findViewById(R.id.signup);
+        signupBtn.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, new RegisterFragment());
+                ft.commit();
             }
         });
         return v;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.signup:
+    private void logIn() {
+        ParseUser.logInInBackground(usernametxt, passwordtxt, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, com.parse.ParseException e) {
+                if (e == null) {
+                    UserProfile.setUsername(usernametxt);
+                    setStateInDB();
+                } else {
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, new RegisterFragment());
-                ft.commit();
+    private void setStateInDB()
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(Metadata.USERS_TABLE);
+        query.whereEqualTo(Metadata.ATTRIBUTE_NAME, UserProfile.getUsername());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> records, ParseException e) {
+                if (e == null) {
+                    Log.d(TAG, "Retrieved data!");
+                    ParseObject temp = records.get(0);
+                    temp.put(Metadata.ATTRIBUTE_STATE,true);
+                    temp.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e==null)
+                            {
+                                Intent intent = new Intent(getActivity(), ConnectionsActivity.class);
+                                startActivity(intent);
+                            }
+                            else
+                            {
+                                Log.d(TAG, "Error: " + e.getMessage());
+                            }
+                        }
+                    });
 
-                break;
-        }
+                } else {
+                    Log.d(TAG, "Error: " + e.getMessage());
+                }
+            }
+        });
     }
 }

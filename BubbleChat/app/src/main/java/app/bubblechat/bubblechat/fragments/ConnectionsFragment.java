@@ -25,6 +25,7 @@ import app.bubblechat.bubblechat.R;
 import app.bubblechat.bubblechat.helpers.Metadata;
 import app.bubblechat.bubblechat.objects.FriendData;
 import app.bubblechat.bubblechat.objects.FriendsAdapter;
+import app.bubblechat.bubblechat.objects.UserProfile;
 
 /**
  * Created by gerybravo on 2016.01.08..
@@ -33,29 +34,28 @@ public class ConnectionsFragment extends Fragment {
 
     private static final String TAG = "ConnectionsFragment";
 
-    private String username = "jolanka"; //test name!!!!
     private List<String> friendsName;
     private List<Boolean> friendsState;
-
-    private RecyclerView recyclerView;
     private List<FriendData> friendData;
-    private FriendsAdapter friendsAdapter;
     private ImageButton bNewMessage;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private FriendsAdapter friendsAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance)
     {
         View v = inflater.inflate(R.layout.fragment_connections, container, false);
+        recyclerView = (RecyclerView) v.findViewById(R.id.rvConnectionsList);
         friendsName = new ArrayList<String>();
         friendsState = new ArrayList<Boolean>();
-        Parse.initialize(getActivity());
+        //Parse.initialize(getActivity());
         getFriendsList();
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         bNewMessage = (ImageButton) v.findViewById(R.id.bNewMessage);
         bNewMessage.setOnClickListener(new ImageButton.OnClickListener() {
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, new ChatFragment());
                 ft.commit();
@@ -66,19 +66,12 @@ public class ConnectionsFragment extends Fragment {
 
     private void getFriendsList() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Metadata.USERS_TABLE);
-        query.whereEqualTo(Metadata.ATTRIBUTE_NAME, username);
+        query.whereEqualTo(Metadata.ATTRIBUTE_NAME, UserProfile.getUsername());
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> records, ParseException e) {
                 if (e == null) {
                     Log.d(TAG, "Retrieved data!");
-                    String friends = records.get(0).getString(Metadata.ATTRIBUTE_FRIENDSLIST);
-                    String[] temp = friends.split(",");
-                    for(int i = 0; i < temp.length; i++)
-                    {
-                        Log.d(TAG,temp[i]);
-                        friendsName.add(temp[i]);
-                        Log.d(TAG,String.valueOf(friendsName.size()));
-                    }
+                    handleNames(records);
                     getFriendsState(friendsName);
                 } else {
                     Log.d(TAG, "Error: " + e.getMessage());
@@ -88,27 +81,58 @@ public class ConnectionsFragment extends Fragment {
     }
 
     private void getFriendsState(List<String> friendsName) {
-            friendsName.add("awadon");
+        List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+        for(int i = 0; i < friendsName.size(); i++)
+        {
             ParseQuery<ParseObject> query = ParseQuery.getQuery(Metadata.USERS_TABLE);
-            query.whereEqualTo(Metadata.ATTRIBUTE_NAME, friendsName.get(0));
-            query.findInBackground(new FindCallback<ParseObject>() {
-                public void done(List<ParseObject> records, ParseException e) {
-                    if (e == null) {
-                        Log.d(TAG, "Retrieved data!");
-                        boolean state = records.get(0).getBoolean("state");
-                        friendsState.add(state);
-                        Log.d("cucc",String.valueOf(friendsState.size()));
-                        //recyclerView = (RecyclerView) v.findViewById(R.id.rvConnectionsList);
-                        //friendData = genRecyclerViewItems(friendsName, friendsState);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        friendsAdapter = new FriendsAdapter(friendData);
-                        recyclerView.setAdapter(friendsAdapter);
-                    } else {
-                        Log.d(TAG, "Error: " + e.getMessage());
-                    }
+            query.whereEqualTo(Metadata.ATTRIBUTE_NAME,friendsName.get(i));
+            queries.add(query);
+        }
+        ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+        mainQuery.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> results, ParseException e) {
+                if(e==null)
+                {
+                    Log.d(TAG, "Retrieved data!");
+                    handleStates(results);
                 }
-            });
+                else
+                {
+                    Log.d(TAG,e.getMessage());
+                }
+            }
+        });
+    }
 
+    private void handleNames(List<ParseObject> response)
+    {
+        String friends = response.get(0).getString(Metadata.ATTRIBUTE_FRIENDSLIST);
+        String[] temp = friends.split(",");
+        for (int i = 0; i < temp.length; i++) {
+            Log.d(TAG, temp[i]);
+            friendsName.add(temp[i]);
+            Log.d(TAG, String.valueOf(friendsName.size()));
+        }
+    }
+
+    private void handleStates(List<ParseObject> response)
+    {
+        Log.d(TAG,"handleStates");
+        for(int i = 0; i < response.size(); i++)
+        {
+            boolean state = response.get(i).getBoolean(Metadata.ATTRIBUTE_STATE);
+            friendsState.add(state);
+        }
+        buildRecyclerView();
+    }
+
+    private void buildRecyclerView()
+    {
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        friendData = genRecyclerViewItems(friendsName,friendsState);
+        friendsAdapter = new FriendsAdapter(friendData);
+        recyclerView.setAdapter(friendsAdapter);
     }
 
     private List<FriendData> genRecyclerViewItems(List<String> friendsName, List<Boolean> friendsState) {

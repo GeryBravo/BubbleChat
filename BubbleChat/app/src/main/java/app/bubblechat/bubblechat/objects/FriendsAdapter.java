@@ -1,9 +1,11 @@
 package app.bubblechat.bubblechat.objects;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -40,23 +42,27 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
-        viewHolder.tvName.setText(itemsData[position].getName());
-        String online = "online";
-        if(!itemsData[position].isState())
-            online = "offline";
-        viewHolder.tvState.setText(online);
+        viewHolder.button.setText(itemsData[position].getName());
+        int imgResourceOnline = R.drawable.online;
+        int imgResourceOffline = R.drawable.offline;
+        if(!itemsData[position].isState()) {
+            viewHolder.button.setCompoundDrawablesWithIntrinsicBounds(0, 0, imgResourceOffline,0);
+        }
+        else
+        {
+            viewHolder.button.setCompoundDrawablesWithIntrinsicBounds(0,0,imgResourceOnline,0);
+        }
     }
 
     // inner class to hold a reference to each item of RecyclerView
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvName;
-        public TextView tvState;
+        public Button button;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
-            tvName = (TextView) itemLayoutView.findViewById(R.id.item_tvName);
-            tvState = (TextView) itemLayoutView.findViewById(R.id.item_tvState);
+            button = (Button) itemLayoutView.findViewById(R.id.bItem);
+
         }
     }
 
