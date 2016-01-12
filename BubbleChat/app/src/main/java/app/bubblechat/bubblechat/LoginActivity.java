@@ -13,8 +13,6 @@ public class LoginActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.container);
-        Parse.initialize(this);
-        ParseInstallation.getCurrentInstallation().saveInBackground();
         if (findViewById(R.id.fragment_container) != null) {
 
             // However, if we're being restored from a previous state,

@@ -7,6 +7,16 @@ public final class UserProfile {
 
     private static String username;
 
+    public static String getsUserId() {
+        return sUserId;
+    }
+
+    public static void setsUserId(String sUserId) {
+        UserProfile.sUserId = sUserId;
+    }
+
+    private static String sUserId;
+
     private UserProfile(){}
 
     public static String getUsername() {

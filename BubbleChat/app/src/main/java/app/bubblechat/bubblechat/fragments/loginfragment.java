@@ -79,6 +79,7 @@ public class LoginFragment extends Fragment {
             public void done(ParseUser user, com.parse.ParseException e) {
                 if (e == null) {
                     UserProfile.setUsername(usernametxt);
+                    UserProfile.setsUserId(ParseUser.getCurrentUser().getObjectId());
                     setStateInDB();
                 } else {
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
