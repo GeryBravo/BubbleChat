@@ -1,10 +1,13 @@
 package app.bubblechat.bubblechat;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.parse.Parse;
 import com.parse.ParseInstallation;
+import com.parse.ParseUser;
 
 import app.bubblechat.bubblechat.fragments.LoginFragment;
 
@@ -16,22 +19,11 @@ public class LoginActivity extends FragmentActivity {
         Parse.initialize(this);
         ParseInstallation.getCurrentInstallation().saveInBackground();
         if (findViewById(R.id.fragment_container) != null) {
-
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
             if (savedInstanceState != null) {
                 return;
             }
-
-            // Create a new Fragment to be placed in the activity layout
             LoginFragment f = new LoginFragment();
-
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
             f.setArguments(getIntent().getExtras());
-
-            // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, f).commit();
         }

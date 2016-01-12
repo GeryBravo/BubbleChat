@@ -49,6 +49,7 @@ public class ConnectionsFragment extends Fragment {
         recyclerView = (RecyclerView) v.findViewById(R.id.rvConnectionsList);
         friendsName = new ArrayList<String>();
         friendsState = new ArrayList<Boolean>();
+        Log.d("lofasz","belepunk a fragmentbe");
         //Parse.initialize(getActivity());
         getFriendsList();
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -78,6 +79,7 @@ public class ConnectionsFragment extends Fragment {
                 }
             }
         });
+        Log.d("lofasz","megkapjuk a barát listát");
     }
 
     private void getFriendsState(List<String> friendsName) {
@@ -102,6 +104,7 @@ public class ConnectionsFragment extends Fragment {
                 }
             }
         });
+        Log.d("lofasz","megkapjuk a barátok állapotait is");
     }
 
     private void handleNames(List<ParseObject> response)

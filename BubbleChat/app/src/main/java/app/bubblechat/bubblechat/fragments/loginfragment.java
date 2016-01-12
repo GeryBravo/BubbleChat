@@ -45,8 +45,17 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+            // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
+        if (ParseUser.getCurrentUser().isAuthenticated())
+        {
+            Log.d("lofasz", ParseUser.getCurrentUser().getUsername().toString());
+            Intent intent = new Intent(
+                    getActivity(),
+                    ConnectionsActivity.class);
+            startActivity(intent);
+        }
         //Parse.initialize(getActivity());
         //ParseInstallation.getCurrentInstallation().saveInBackground();
         username = (EditText) v.findViewById(R.id.username);

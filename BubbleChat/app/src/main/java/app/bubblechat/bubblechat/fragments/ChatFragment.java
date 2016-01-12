@@ -63,34 +63,6 @@ public class ChatFragment extends Fragment {
         }
 
         handler.postDelayed(runnable, 100);
-
-/*
-
-        bSend = (Button) v.findViewById(R.id.bSend);
-        tMessage = (EditText) v.findViewById(R.id.tMessage);
-
-
-        bSend.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                message = tMessage.getText().toString();
-
-                String data = tMessage.getText().toString();
-                ParseObject message = ParseObject.create("Message");
-                message.put(USER_ID_KEY, sUserId);
-                message.put("body", data);
-                message.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Toast.makeText(getActivity(), "Successfully created message on Parse",
-                                Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-                tMessage.setText("");
-            }
-        });
-*/
         return v;
     }
     private Runnable runnable = new Runnable() {

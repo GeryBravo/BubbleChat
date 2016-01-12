@@ -12,7 +12,7 @@ public class ConnectionsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.container);
-        Log.d("ConnectionsActivity","onCreate");
+        Log.d("lofasz","onCreate");
 
         if(findViewById(R.id.fragment_container)!=null)
         {
