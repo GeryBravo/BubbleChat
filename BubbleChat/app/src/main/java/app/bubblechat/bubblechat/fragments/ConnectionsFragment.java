@@ -68,6 +68,7 @@ public class ConnectionsFragment extends Fragment {
     private void getFriendsList() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Metadata.USERS_TABLE);
         query.whereEqualTo(Metadata.ATTRIBUTE_NAME, UserProfile.getUsername());
+        query.orderByAscending(Metadata.ATTRIBUTE_NAME);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> records, ParseException e) {
                 if (e == null) {

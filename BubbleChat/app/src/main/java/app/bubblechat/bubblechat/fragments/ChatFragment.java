@@ -21,9 +21,11 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.bubblechat.bubblechat.helpers.MessageType;
 import app.bubblechat.bubblechat.objects.ChatListAdapter;
 import app.bubblechat.bubblechat.objects.Message;
 import app.bubblechat.bubblechat.R;
+import app.bubblechat.bubblechat.objects.UserProfile;
 
 /**
  * Created by Ben on 2016.01.10..
@@ -31,21 +33,14 @@ import app.bubblechat.bubblechat.R;
 public class ChatFragment extends Fragment {
 
     private Handler handler = new Handler();
-
-    private static final String USER_ID_KEY = "userId";
     private Button bSend;
     private EditText tMessage;
     private EditText tAdress;
-    private String message;
-    private static String sUserId;
-
     private ListView lvChat;
     private ArrayList<Message> mMessages;
     private ChatListAdapter mAdapter;
     // Keep track of initial load to scroll to the bottom of the ListView
     private boolean mFirstLoad;
-
-
     private static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
 
 
@@ -56,7 +51,6 @@ public class ChatFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_chat, container, false);
 
         if (ParseUser.getCurrentUser() != null) { // start with existing user
-            sUserId = ParseUser.getCurrentUser().getObjectId();
             setupMessagePosting(v);
         } else {
             //visszanavigálunk a login oldalra
@@ -85,28 +79,33 @@ public class ChatFragment extends Fragment {
         // Automatically scroll to the bottom when a data set change notification is received and only if the last item is already visible on screen. Don't scroll to the bottom otherwise.
         lvChat.setTranscriptMode(1);
         mFirstLoad = true;
-        mAdapter = new ChatListAdapter(getActivity(), sUserId, mMessages);
+        mAdapter = new ChatListAdapter(getActivity(), UserProfile.getsUserId(), mMessages);
         lvChat.setAdapter(mAdapter);
         bSend.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                String body = tMessage.getText().toString();
-                String adress = tAdress.getText().toString();
-                // Use Message model to create new messages now
-                Message message = new Message();
-                message.setUserId(sUserId);
-                message.setAdressId(adress);
-                message.setBody(body);
-                message.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        receiveMessage();
-                    }
-                });
-                tMessage.setText("");
+                sendMessage();
             }
         });
+    }
+
+    private void sendMessage() {
+        String body = tMessage.getText().toString();
+        String adress = tAdress.getText().toString();
+        // Use Message model to create new messages now
+        Message message = new Message();
+        message.setUserId(UserProfile.getsUserId());
+        message.setAdressId(adress);
+        message.setBody(body);
+        message.setType(MessageType.MESSAGE);
+        message.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                receiveMessage();
+            }
+        });
+        tMessage.setText("");
     }
 
     private void receiveMessage() {
@@ -126,7 +125,7 @@ public class ChatFragment extends Fragment {
 
                     for (Message m : messages
                             ) {
-                        if(m.getAdressId().equals(sUserId))
+                        if(m.getAdressId().equals(UserProfile.getsUserId()))
                         {
                             mMessages.add(m);
                         }

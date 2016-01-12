@@ -47,6 +47,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         int imgResourceOffline = R.drawable.offline;
         if(!itemsData[position].isState()) {
             viewHolder.button.setCompoundDrawablesWithIntrinsicBounds(0, 0, imgResourceOffline,0);
+            viewHolder.button.setEnabled(false);
         }
         else
         {
