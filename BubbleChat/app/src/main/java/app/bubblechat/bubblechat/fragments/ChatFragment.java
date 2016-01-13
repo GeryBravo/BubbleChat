@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +126,7 @@ public class ChatFragment extends Fragment {
 
                     for (Message m : messages
                             ) {
-                        if(m.getAdressId().equals(UserProfile.getsUserId()))
+                        if(m.getAdressId().equals(UserProfile.getUsername()))
                         {
                             mMessages.add(m);
                         }

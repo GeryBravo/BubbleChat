@@ -1,9 +1,11 @@
 package app.bubblechat.bubblechat;
 
+import android.app.FragmentManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import app.bubblechat.bubblechat.fragments.ChatFragment;
 import app.bubblechat.bubblechat.fragments.ConnectionsFragment;
 
 public class ConnectionsActivity extends FragmentActivity {
@@ -22,8 +24,7 @@ public class ConnectionsActivity extends FragmentActivity {
             ConnectionsFragment firstFragment = new ConnectionsFragment();
             firstFragment.setArguments(getIntent().getExtras());
             getFragmentManager().beginTransaction().add(R.id.fragment_container, firstFragment).commit();
+
         }
-
-
     }
 }

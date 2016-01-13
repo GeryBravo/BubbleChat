@@ -1,6 +1,7 @@
 package app.bubblechat.bubblechat.fragments;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v4.app.FragmentTransaction;
@@ -12,15 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.*;
 
+import app.bubblechat.bubblechat.ConnectionsActivity;
+import app.bubblechat.bubblechat.LoginActivity;
 import app.bubblechat.bubblechat.R;
 import app.bubblechat.bubblechat.helpers.Metadata;
 import app.bubblechat.bubblechat.objects.FriendData;
@@ -41,6 +46,7 @@ public class ConnectionsFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private FriendsAdapter friendsAdapter;
+    private ImageButton bLogOut;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance)
@@ -49,11 +55,20 @@ public class ConnectionsFragment extends Fragment {
         recyclerView = (RecyclerView) v.findViewById(R.id.rvConnectionsList);
         friendsName = new ArrayList<String>();
         friendsState = new ArrayList<Boolean>();
-        Log.d("lofasz","belepunk a fragmentbe");
+        Log.d("teszt", "belepunk a fragmentbe");
         //Parse.initialize(getActivity());
         getFriendsList();
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
-
+        bLogOut = (ImageButton) v.findViewById(R.id.bLogOut);
+        bLogOut.setOnClickListener(new ImageButton.OnClickListener() {
+            public void onClick(View v) {
+                ParseUser.logOut();
+                Intent intent = new Intent(
+                        getActivity(),
+                        LoginActivity.class);
+                startActivity(intent);
+            }
+        });
         bNewMessage = (ImageButton) v.findViewById(R.id.bNewMessage);
         bNewMessage.setOnClickListener(new ImageButton.OnClickListener() {
             public void onClick(View v) {
@@ -73,18 +88,22 @@ public class ConnectionsFragment extends Fragment {
             public void done(List<ParseObject> records, ParseException e) {
                 if (e == null) {
                     Log.d(TAG, "Retrieved data!");
-                    handleNames(records);
-                    getFriendsState(friendsName);
+                    if(!records.isEmpty())
+                    {
+                        handleNames(records);
+                        getFriendsState(friendsName);
+                    }
                 } else {
                     Log.d(TAG, "Error: " + e.getMessage());
                 }
             }
         });
-        Log.d("lofasz","megkapjuk a barát listát");
+        Log.d("teszt", "megkapjuk a barát listát");
     }
 
     private void getFriendsState(List<String> friendsName) {
         List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+
         for(int i = 0; i < friendsName.size(); i++)
         {
             ParseQuery<ParseObject> query = ParseQuery.getQuery(Metadata.USERS_TABLE);
@@ -105,7 +124,7 @@ public class ConnectionsFragment extends Fragment {
                 }
             }
         });
-        Log.d("lofasz","megkapjuk a barátok állapotait is");
+        Log.d("teszt","megkapjuk a barátok állapotait is");
     }
 
     private void handleNames(List<ParseObject> response)
@@ -148,4 +167,5 @@ public class ConnectionsFragment extends Fragment {
         }
         return friendDataList;
     }
+
 }

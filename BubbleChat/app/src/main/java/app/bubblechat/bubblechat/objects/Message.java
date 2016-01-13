@@ -15,6 +15,7 @@ public class Message extends ParseObject {
     public String getUserId() {
         return getString("userId");
     }
+    public String getUserName() { return getString("username"); }
     public String getAdressId() {
         return getString("adressId");
     }
@@ -22,8 +23,12 @@ public class Message extends ParseObject {
         return getString("body");
     }
     public String getType(){return getString("type");}
+
     public void setUserId(String userId) {
         put("userId", userId);
+    }
+    public void setUserName(String username) {
+        put("username", username);
     }
     public void setAdressId(String adressId) {
         put("adressId", adressId);

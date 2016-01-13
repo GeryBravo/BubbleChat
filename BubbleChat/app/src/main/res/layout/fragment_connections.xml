@@ -9,13 +9,14 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         >
+
         <ImageButton
-            android:id="@+id/bNewMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/message32"
-            android:layout_weight="0.3"
-            />
+        android:id="@+id/bLogOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logout13"
+        android:layout_weight="0.3"
+        />
         <TextView
             android:id="@+id/tvConnectionsTitle"
             android:layout_height="wrap_content"
@@ -30,6 +31,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
             android:src="@drawable/add32"/>
+        <ImageButton
+            android:id="@+id/bNewMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/message32"
+            android:layout_weight="0.3"
+            />
     </LinearLayout>
 
 
@@ -37,5 +45,6 @@
         android:id="@+id/rvConnectionsList"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"/>
+
 
 </LinearLayout>

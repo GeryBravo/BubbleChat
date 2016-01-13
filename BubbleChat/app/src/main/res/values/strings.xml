@@ -3,6 +3,7 @@
     <string name="caTitle">Connections</string>
     <string name="Username">Username</string>
     <string name="Password">Password</string>
+    <string name="PasswordAgain">Password again</string>
     <string name="LoginBtn">Login</string>
     <string name="Email">Email</string>
     <string name="SignupBtn">Sign Up</string>
@@ -15,4 +16,9 @@
 
     <string name="profile_me">My Profile Pic</string>
     <string name="profile_other">Other profile pic</string>
+
+    <string name="ErrorUsername">Username must be between 4-15 digits.</string>
+    <string name="ErrorPassword">Password must be between 6-15 digits.</string>
+    <string name="ErrorPasswordNoMatch">The two password does not match!</string>
+    <string name="ErrorUsernameAlreadyTaken">The given username is already taken</string>
 </resources>

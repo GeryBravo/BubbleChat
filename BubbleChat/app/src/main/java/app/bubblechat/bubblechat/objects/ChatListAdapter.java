@@ -9,6 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigInteger;
@@ -16,6 +21,7 @@ import java.security.MessageDigest;
 import java.util.List;
 
 import app.bubblechat.bubblechat.R;
+import app.bubblechat.bubblechat.helpers.Metadata;
 
 /**
  * Created by Ben on 2016.01.11..
@@ -55,7 +61,7 @@ public class ChatListAdapter extends ArrayAdapter<Message> {
         }
         final ImageView profileView = isMe ? holder.imageRight : holder.imageLeft;
         Picasso.with(getContext()).load(getProfileUrl(message.getUserId())).into(profileView);
-        holder.body.setText(message.getBody());
+        holder.body.setText(message.getUserName()+ ": " + message.getBody());
         return convertView;
     }
 

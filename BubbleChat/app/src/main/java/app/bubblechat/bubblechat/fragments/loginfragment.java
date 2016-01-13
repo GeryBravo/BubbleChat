@@ -46,11 +46,11 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-            // Inflate the layout for this fragment
+        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
-        if (ParseUser.getCurrentUser().isAuthenticated())
+        if (ParseUser.getCurrentUser() != null)
         {
-            Log.d("lofasz", ParseUser.getCurrentUser().getUsername().toString());
+            Log.d("teszt", ParseUser.getCurrentUser().getUsername().toString());
             Intent intent = new Intent(
                     getActivity(),
                     ConnectionsActivity.class);
